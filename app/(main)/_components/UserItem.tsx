@@ -38,7 +38,7 @@ export const UserItem = () => {
                             </Avatar>
                         </div>
                         <div className="space-y-1">
-                            <p className="text-sm text-[#535353] line-clamp-1 font-bold mb-0">
+                            <p className="text-sm text-[#535353] dark:text-[#f0ecec] line-clamp-1 font-bold mb-0">
                                 {user?.fullName}&apos;s Jotion
                             </p>
                             <p className="text-xs font-medium leading-none text-muted-foreground">

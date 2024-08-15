@@ -1,16 +1,28 @@
 "use client";
 
 import { ElementRef, useEffect, useRef, useState } from "react";
-import { ChevronsLeft, MenuIcon } from "lucide-react";
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings, Trash } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useMediaQuery } from "usehooks-ts";
-import { cn } from "@/lib/utils";
+import { useMutation } from "convex/react";
+import { toast } from "sonner";
 
+import Item from "./Item";
+import { cn } from "@/lib/utils";
+import TrashBox from "./TrashBox";
 import { UserItem } from "./UserItem";
+import DocumentList from "./DocumentList";
+import { api } from "@/convex/_generated/api";
+import { useSearch } from "@/hooks/useSearch";
+import { useSettings } from "@/hooks/useSettings";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const Navigation = () => {
+    const search = useSearch();
+    const settings = useSettings();
     const pathname = usePathname();
     const isMobile = useMediaQuery('(max-width: 768px)');
+    const create = useMutation(api.documents.create);
 
     const isResizingRef = useRef(false);
     const sidebarRef = useRef<ElementRef<'aside'>>(null);
@@ -81,6 +93,16 @@ const Navigation = () => {
             navbarRef.current.style.setProperty('width', '100%');
             navbarRef.current.style.setProperty('left', '0');
         }
+    };
+
+    const handleCreate = () => {
+        const promise = create({ title: "Untitled" });
+
+        toast.promise(promise, {
+            loading: "Creating a new note...",
+            success: "New note created!",
+            error: "Failed to create a new note!"
+        })
     }
 
     return (
@@ -106,9 +128,42 @@ const Navigation = () => {
                 </div>
                 <div>
                     <UserItem />
+                    <Item
+                        label="Search"
+                        onClick={() => search.onOpen()}
+                        icon={Search}
+                        isSearch
+
+                    />
+                    <Item
+                        label="Settings"
+                        onClick={() => settings.onOpen()}
+                        icon={Settings}
+                    />
+                    <Item
+                        label="New page"
+                        onClick={handleCreate}
+                        icon={PlusCircle}
+                    />
                 </div>
                 <div className="mt-4">
-                    <p>Documents</p>
+                    <DocumentList />
+                    <Item
+                        onClick={handleCreate}
+                        label="New Page"
+                        icon={PlusCircle}
+                    />
+                    <Popover>
+                        <PopoverTrigger className="w-full mt-4">
+                            <Item label="Trash" icon={Trash} />
+                        </PopoverTrigger>
+                        <PopoverContent
+                            className="p-0 w-72"
+                            side={isMobile ? "bottom" : "right"}
+                        >
+                            <TrashBox /> 
+                        </PopoverContent>
+                    </Popover>
                 </div>
                 <div
                     onMouseDown={handleMouseDown}
