@@ -2,14 +2,14 @@
 
 import { toast } from "sonner";
 import { useState } from "react";
+import { Search, Trash, Undo } from "lucide-react";
 import { useMutation, useQuery } from "convex/react";
 import { useParams, useRouter } from "next/navigation";
 
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-import { Spinner } from "@/components/spinner";
-import { Search, Trash, Undo } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Spinner } from "@/components/spinner";
+import { Id } from "@/convex/_generated/dataModel";
 import { ConfrimModal } from "@/components/modals/ConfirmModal";
 
 const TrashBox = () => {

@@ -1,22 +1,23 @@
 "use client";
 
+import { toast } from "sonner";
+import { useMutation } from "convex/react";
+import { useMediaQuery } from "usehooks-ts";
+import { useParams, usePathname } from "next/navigation";
 import { ElementRef, useEffect, useRef, useState } from "react";
 import { ChevronsLeft, MenuIcon, PlusCircle, Search, Settings, Trash } from "lucide-react";
-import { useParams, usePathname } from "next/navigation";
-import { useMediaQuery } from "usehooks-ts";
-import { useMutation } from "convex/react";
-import { toast } from "sonner";
+
+import { cn } from "@/lib/utils";
+import { useSearch } from "@/hooks/useSearch";
+import { api } from "@/convex/_generated/api";
+import { useSettings } from "@/hooks/useSettings";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 import Item from "./Item";
 import Navbar from "./Navbar";
-import { cn } from "@/lib/utils";
 import TrashBox from "./TrashBox";
 import { UserItem } from "./UserItem";
 import DocumentList from "./DocumentList";
-import { api } from "@/convex/_generated/api";
-import { useSearch } from "@/hooks/useSearch";
-import { useSettings } from "@/hooks/useSettings";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const Navigation = () => {
     const search = useSearch();
@@ -130,39 +131,18 @@ const Navigation = () => {
                 </div>
                 <div>
                     <UserItem />
-                    <Item
-                        label="Search"
-                        onClick={() => search.onOpen()}
-                        icon={Search}
-                        isSearch
-
-                    />
-                    <Item
-                        label="Settings"
-                        onClick={() => settings.onOpen()}
-                        icon={Settings}
-                    />
-                    <Item
-                        label="New page"
-                        onClick={handleCreate}
-                        icon={PlusCircle}
-                    />
+                    <Item isSearch icon={Search} label="Search" onClick={() => search.onOpen()} />
+                    <Item icon={Settings} label="Settings" onClick={() => settings.onOpen()} />
+                    <Item icon={PlusCircle} label="New page" onClick={handleCreate} />
                 </div>
                 <div className="mt-4">
                     <DocumentList />
-                    <Item
-                        onClick={handleCreate}
-                        label="New Page"
-                        icon={PlusCircle}
-                    />
+                    <Item icon={PlusCircle} label="Add a page" onClick={handleCreate} />
                     <Popover>
                         <PopoverTrigger className="w-full mt-4">
                             <Item label="Trash" icon={Trash} />
                         </PopoverTrigger>
-                        <PopoverContent
-                            className="p-0 w-72"
-                            side={isMobile ? "bottom" : "right"}
-                        >
+                        <PopoverContent className="p-0 w-72" side={isMobile ? "bottom" : "right"} >
                             <TrashBox />
                         </PopoverContent>
                     </Popover>
@@ -187,11 +167,12 @@ const Navigation = () => {
                         isCollapsed={isCollapsed}
                         onResetWidth={resetWidth}
                     />
-                ) : null}
-                <nav className="bg-transparent px-3 py-2 w-full">
-                    {isCollapsed && <MenuIcon onClick={resetWidth} role="button" className="h-6 w-6 text-muted-foreground" />}
-                </nav>
-            </div>
+                ) : (
+                    <nav className="bg-transparent px-3 py-2 w-full">
+                        {isCollapsed && <MenuIcon onClick={resetWidth} role="button" className="h-6 w-6 text-muted-foreground" />}
+                    </nav>
+                )}
+            </div >
         </>
     );
 }

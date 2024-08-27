@@ -16,6 +16,7 @@ import {
     DropdownMenuItem,
     DropdownMenuSeparator
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface MenuProps {
     documentId: Id<'documents'>;
@@ -63,6 +64,12 @@ const Menu = ({ documentId }: MenuProps) => {
             </DropdownMenuContent>
         </DropdownMenu>
     );
+}
+
+Menu.Skeleton = function MenuSkeleton() {
+    return (
+        <Skeleton className="h-9 w-20 rounded-md" />
+    )
 }
 
 export default Menu;
