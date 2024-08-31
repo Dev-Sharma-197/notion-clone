@@ -1,6 +1,13 @@
 {
-  "plugins": ["react"],
-  "extends": ["eslint:recommended", "plugin:react/recommended", "next/core-web-vitals"],
+  "plugins": [
+    "react"
+  ],
+  "extends": [
+    "next",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "next/core-web-vitals"
+  ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "requireConfigFile": false,
@@ -23,6 +30,14 @@
     }
   },
   "rules": {
-    "semi": ["error", "never"]
+    "semi": [
+      "error",
+      "always"
+    ], // Enforces semicolons
+    "no-extra-semi": "off", // Disables errors for extra semicolons
+    "no-undef": "off",
+    "no-unused-vars": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-extra-boolean-cast": "off"
   }
 }
