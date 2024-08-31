@@ -1,15 +1,19 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type CoverImageStore = {
-    isOpen: boolean;
-    onOpen: () => void;
-    onClose: () => void;
+  url?: string;
+  isOpen: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+  onReplace: (url: string) => void;
 };
 
-const useCoverImage = create<CoverImageStore>((set) => ({
-    isOpen: false,
-    onOpen: () => set({ isOpen: true }),
-    onClose: () => set({ isOpen: false }),
+const useCoverImage = create<CoverImageStore>(set => ({
+  url: undefined,
+  isOpen: false,
+  onOpen: () => set({ isOpen: true, url: undefined }),
+  onClose: () => set({ isOpen: false, url: undefined }),
+  onReplace: (url: string) => set({ isOpen: true, url })
 }));
 
 export default useCoverImage;

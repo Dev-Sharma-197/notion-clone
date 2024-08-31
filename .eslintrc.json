@@ -1,3 +1,28 @@
 {
-  "extends": "next/core-web-vitals"
+  "plugins": ["react"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "next/core-web-vitals"],
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "requireConfigFile": false,
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "globals": {
+    "$": true
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "semi": ["error", "never"]
+  }
 }

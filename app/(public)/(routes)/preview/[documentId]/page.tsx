@@ -26,6 +26,7 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
   const update = useMutation(api.documents.update);
 
   const onChange = (content: string) => {
+    console.log('fired', content);
     update({ id: params.documentId, content });
   };
 
@@ -52,10 +53,10 @@ const DocumentIdPage = ({ params }: DocumentIdPageProps) => {
 
   return (
     <div className='pb-40'>
-      <Cover url={document.coverImage} />
+      <Cover preview url={document.coverImage} />
       <div className='md:max-w-3xl lg:max-w-lg mx-auto'>
-        <Toolbar initialData={document} />
-        <Editor onChange={onChange} initialContent={document.content} />
+        <Toolbar preview initialData={document} />
+        <Editor editable={false} onChange={onChange} initialContent={document.content} />
       </div>
     </div>
   );
